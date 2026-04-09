@@ -1,0 +1,340 @@
+# 引擎大盘静态配置 - Targets
+# 原则：只填能实际爬取到内容的 API子域/活动页/控制台页，不填有WAF保护的主营销域
+
+targets:
+  tier_1:
+    - name: "SiliconFlow"
+      domains: ["siliconflow.cn", "cloud.siliconflow.cn"]
+      github_org: "siliconflow"
+      npm_scope: "@siliconflow"
+      docker_namespaces: ["siliconflow"]
+      status_page: "https://status.siliconflow.cn"
+    
+    - name: "DeepSeek"
+      # platform.deepseek.com 是开放的API开发者平台
+      domains: ["platform.deepseek.com"]
+      github_org: "deepseek-ai"
+      docker_namespaces: ["deepseek", "deepseekai"]
+      
+    - name: "Groq"
+      # console.groq.com 是真实的开发者控制台
+      domains: ["console.groq.com", "groq.com"]
+      github_org: "groq"
+      npm_scope: "@groq"
+      status_page: "https://groqstatus.com"
+      
+    - name: "Together.ai"
+      domains: ["api.together.ai", "www.together.ai"]
+      github_org: "togethercomputer"
+      npm_scope: "@together-ai"
+      status_page: "https://status.together.ai"
+      
+    - name: "Cloudflare"
+      domains: ["developers.cloudflare.com", "dash.cloudflare.com"]
+      github_org: "cloudflare"
+      npm_scope: ""
+      docker_namespaces: ["cloudflare"]
+      status_page: "https://www.cloudflarestatus.com"
+      
+    - name: "Vercel"
+      domains: ["vercel.com"]
+      github_org: "vercel"
+      npm_scope: "@vercel"
+      status_page: "https://www.vercel-status.com"
+
+    # --- Global AI Giants ---
+    - name: "OpenAI"
+      # platform.openai.com 是开发者平台，有免费额度相关内容
+      domains: ["platform.openai.com", "openai.com"]
+      github_org: "openai"
+      sdk_repos: ["openai-python", "openai-node"]
+      status_page: "https://status.openai.com"
+      
+    - name: "Anthropic"
+      domains: ["console.anthropic.com", "anthropic.com"]
+      github_org: "anthropics"
+      sdk_repos: ["anthropic-sdk-python", "anthropic-sdk-typescript"]
+      status_page: "https://status.anthropic.com"
+
+    - name: "Google AI Studio"
+      # aistudio.google.com 是免费额度入口
+      domains: ["aistudio.google.com", "ai.google.dev"]
+      github_org: "google-gemini"
+      sdk_repos: ["generative-ai-python", "google-genai"]
+
+    - name: "Microsoft Azure AI"
+      # azure.microsoft.com 比 microsoft.com 主域容易访问
+      domains: ["azure.microsoft.com", "ai.azure.com"]
+      github_org: "microsoft"
+      sdk_repos: ["azure-ai-openai", "semantic-kernel"]
+      status_page: "https://azure.status.microsoft"
+
+    - name: "Amazon Bedrock / AWS"
+      domains: ["aws.amazon.com"]
+      github_org: "aws"
+      sdk_repos: ["aws-sdk-js", "boto3"]
+      docker_namespaces: ["amazon"]
+      status_page: "https://health.aws.amazon.com/health/status"
+
+    - name: "Meta AI (Llama)"
+      # ai.meta.com 是Meta官方AI入口
+      domains: ["ai.meta.com", "llama.meta.com"]
+      github_org: "meta-llama"
+      docker_namespaces: ["meta"]
+
+    - name: "Mistral AI"
+      domains: ["console.mistral.ai", "mistral.ai"]
+      github_org: "mistralai"
+      docker_namespaces: ["mistralai"]
+
+    - name: "NVIDIA NIM"
+      # build.nvidia.com 是NVIDIA AI API平台，有免费额度
+      domains: ["build.nvidia.com"]
+      github_org: "NVIDIA"
+      docker_namespaces: ["nvidia"]
+
+    # --- Domestic Tech Giants (精选子域) ---
+    - name: "Baidu AI Studio"
+      # aistudio.baidu.com 是百度真实的开发者平台，有免费算力活动
+      domains: ["aistudio.baidu.com"]
+      github_org: "baidu"
+      
+    - name: "Alibaba Bailian"
+      # bailian.aliyun.com 是百炼平台入口（真实 Web 页面）
+      # dashscope.aliyuncs.com 是纯 REST API Endpoint（*.aliyuncs.com 是阿里云 CDN/API 域名），不可爬取
+      domains: ["bailian.aliyun.com"]
+      github_org: "alibaba"
+      docker_namespaces: ["alibaba"]
+      
+    - name: "Tencent (Hunyuan)"
+      domains: ["cloud.tencent.com"]
+      github_org: "Tencent"
+      
+    - name: "ByteDance (Doubao / Ark)"
+      # console.volcengine.com 是字节火山控制台，API和免费额度的真实入口
+      # ark.cn-beijing.volces.com 是纯 REST API Endpoint，不是 Web 页面，不可爬取
+      domains: ["console.volcengine.com"]
+      github_org: "bytedance"
+      
+    - name: "Zhipu AI (GLM)"
+      # open.bigmodel.cn 是智谱商业开放平台
+      # github_org 用 zhipuai（商业官方）而非 THUDM（清华学术组织）
+      domains: ["open.bigmodel.cn", "bigmodel.cn"]
+      github_org: "zhipuai"
+
+    - name: "MiniMax"
+      # platform.minimax.chat 是 MiniMax 开发者平台（注意不是 minimaxi）
+      domains: ["platform.minimax.chat", "minimax.io"]
+      github_org: "MiniMax-AI"
+
+    - name: "Moonshot (Kimi)"
+      # platform.moonshot.cn 是开发者平台（API Key、免费额度）
+      # kimi.moonshot.cn 是面向用户的 Chat UI，无开发者价値，删除
+      domains: ["platform.moonshot.cn"]
+      github_org: "MoonshotAI"
+
+    # --- AI Inference Platforms ---
+    - name: "xAI (Grok)"
+      domains: ["console.x.ai"]
+      github_org: "xai-org"
+
+    - name: "Fireworks AI"
+      domains: ["fireworks.ai", "app.fireworks.ai"]
+      github_org: "fw-ai"
+      sdk_repos: ["fireworks-ai-node-sdk"]
+
+    - name: "Cerebras"
+      domains: ["cloud.cerebras.ai"]
+      github_org: "Cerebras"
+      sdk_repos: ["cerebras-cloud-sdk-python"]
+
+    - name: "Perplexity AI"
+      domains: ["www.perplexity.ai", "docs.perplexity.ai"]
+      github_org: "pplx-labs"
+
+    - name: "Cohere"
+      domains: ["dashboard.cohere.com", "cohere.com"]
+      github_org: "cohere-ai"
+      sdk_repos: ["cohere-python"]
+
+    - name: "AI21 Labs"
+      domains: ["studio.ai21.com", "www.ai21.com"]
+      github_org: "AI21Labs"
+
+    # --- Domestic Tech Giants Additions ---
+    - name: "Huawei Cloud (Pangu / ModelArts)"
+      domains: ["console.huaweicloud.com", "modelarts.console.huaweicloud.com"]
+      github_org: "huaweicloud"
+
+    - name: "Baidu Cloud (Qianfan)"
+      domains: ["qianfan.baidu.com", "console.bce.baidu.com"]
+      github_org: "baidubce"
+
+    - name: "Kingsoft Cloud"
+      domains: ["ks-llm.ksyun.com"]
+      github_org: "ksyun-kce"
+
+    # --- GPU Compute Platforms ---
+    - name: "Oracle Cloud (Always Free)"
+      domains: ["cloud.oracle.com"]
+      semantic_paths: ["/free", "/always-free"]
+      status_page: "https://ocistatus.oraclecloud.com"
+
+    - name: "Anyscale"
+      domains: ["console.anyscale.com", "anyscale.com"]
+      github_org: "anyscale"
+      sdk_repos: ["ray"]
+
+    - name: "Lepton AI"
+      domains: ["cloud.lepton.ai", "lepton.ai"]
+      github_org: "leptonai"
+
+    - name: "RunPod"
+      domains: ["www.runpod.io", "api.runpod.ai"]
+      github_org: "runpod-workers"
+      status_page: "https://runpodstatus.com"
+
+    - name: "Vast.ai"
+      domains: ["vast.ai", "console.vast.ai"]
+      github_org: "vast-ai"
+
+    - name: "Paperspace (DigitalOcean)"
+      domains: ["console.paperspace.com", "www.paperspace.com"]
+      github_org: "Paperspace"
+
+    - name: "LambdaLabs"
+      domains: ["cloud.lambdalabs.com", "lambdalabs.com"]
+      github_org: "LambdaLabsML"
+
+    - name: "Modal"
+      domains: ["modal.com"]
+      github_org: "modal-labs"
+
+    # --- Startup Credits Entries ---
+    - name: "AWS Activate Founders"
+      domains: ["aws.amazon.com/activate"]
+      semantic_paths: ["/activate", "/startups/credits"]
+
+    - name: "Microsoft Founders Hub"
+      domains: ["foundershub.startups.microsoft.com"]
+
+    - name: "Google Cloud for Startups (Start Tier)"
+      domains: ["cloud.google.com/startup/pre-funded"]
+
+    - name: "NVIDIA Inception"
+      domains: ["nvidiastartups.com", "nvidia.com/en-us/startups"]
+      github_org: "NVIDIA"
+
+    # --- Billing endpoint probes ---
+    - name: "OpenAI Billing Probe"
+      domains: ["api.openai.com"]
+      semantic_paths:
+        - "/dashboard/billing/credit_grants"
+        - "/v1/usage"
+        - "/dashboard/billing/usage"
+        - "/v1/organization/credits"
+
+    - name: "Anthropic Usage Probe"
+      domains: ["api.anthropic.com"]
+      semantic_paths:
+        - "/v1/usage"
+        - "/account/credits"
+        - "/organization/usage"
+
+    - name: "SiliconFlow Billing Probe"
+      domains: ["api.siliconflow.cn"]
+      semantic_paths:
+        - "/v1/user/info"
+        - "/v1/billing/usage"
+        - "/v1/wallet/balance"
+
+  tier_2:
+    - name: "GitHub"
+      domains: ["github.com"]
+      github_org: "github"
+      status_page: "https://www.githubstatus.com"
+      
+    - name: "Neon"
+      domains: ["neon.tech", "console.neon.tech"]
+      github_org: "neon-database"
+      status_page: "https://neonstatus.com"
+
+    - name: "HuggingFace"
+      domains: ["huggingface.co"]
+      github_org: "huggingface"
+      status_page: "https://status.huggingface.co"
+
+    - name: "Supabase"
+      domains: ["supabase.com"]
+      github_org: "supabase"
+
+    - name: "Replicate"
+      domains: ["replicate.com"]
+      github_org: "replicate"
+
+    # --- Vector DBs & Deployment ---
+    - name: "Fly.io"
+      domains: ["fly.io", "api.fly.io"]
+      github_org: "superfly"
+
+    - name: "Railway"
+      domains: ["railway.app"]
+      github_org: "railwayapp"
+
+    - name: "Pinecone"
+      domains: ["app.pinecone.io", "www.pinecone.io"]
+      github_org: "pinecone-io"
+
+    - name: "Qdrant Cloud"
+      domains: ["cloud.qdrant.io", "qdrant.tech"]
+      github_org: "qdrant"
+
+    - name: "Weaviate Cloud"
+      domains: ["console.weaviate.cloud", "weaviate.io"]
+      github_org: "weaviate"
+
+# ==========================================
+# Phase 10 Surgical OSINT Configurators
+# ==========================================
+
+wayback_cdx_probes:
+  - name: "OpenAI 历史账单端点"
+    cdx_query: "https://web.archive.org/cdx/search/cdx?url=platform.openai.com/dashboard/billing*&output=json&limit=500&collapse=urlkey&filter=statuscode:200"
+
+  - name: "Anthropic 历史活动页"
+    cdx_query: "https://web.archive.org/cdx/search/cdx?url=*.anthropic.com/*credit*&output=json&matchType=domain&collapse=urlkey&filter=statuscode:200"
+
+  - name: "SiliconFlow 历史活动页"
+    # 使用 prefix 匹配活动路由
+    cdx_query: "https://web.archive.org/cdx/search/cdx?url=siliconflow.cn/promo*&output=json&matchType=prefix&collapse=urlkey&filter=statuscode:200"
+
+js_bundle_extractor:
+  trigger_signal: "js_bundle_extraction"
+  radar_confidence: 0.85
+  targets:
+    - domain: "platform.openai.com"
+      entry_js_pattern: "/assets/index-*.js"   # Webpack chunk, 需从 HTML 里提取真实 URL
+      extract_patterns:
+        - regex: r'"/dashboard/[a-z_/]+"'        # 路由表
+        - regex: r'"[a-z_]+_enabled"\s*:\s*true' # Feature flag
+        
+    - domain: "console.anthropic.com"
+      entry_js_pattern: "/_next/static/chunks/*.js"   # Next.js
+      
+    - domain: "console.volcengine.com"
+      entry_js_pattern: "/static/js/main.*.js"
+
+hn_launch_monitor:
+  endpoint: "https://hacker-news.firebaseio.com/v0/newstories.json"
+  filter_keywords:
+    - "free credits"
+    - "free tier"
+    - "API"
+    - "LLM"
+    - "GPU"
+    - "inference"
+    - "Show HN"
+  post_discovery_action: "immediate_crawl"   # 不走队列，立即爬取
+  trigger_signal: "hn_launch"
+  radar_confidence: 0.82
+
