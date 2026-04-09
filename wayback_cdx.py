@@ -19,6 +19,10 @@ class WaybackCDXExtractor:
         self.api_url = "http://web.archive.org/cdx/search/cdx"
         
     async def extract_from_query(self, cdx_query_url: str, name: str = "Unknown Probe") -> List[Dict[str, Any]]:
+        # [HIGH-3 FIX] 强制升级为 HTTPS 截断中间人攻击
+        if cdx_query_url.startswith("http://"):
+            cdx_query_url = cdx_query_url.replace("http://", "https://", 1)
+            
         logger.info(f"🕰️ [Wayback CDX] 访问档案馆 {name}: {cdx_query_url}")
         
         patterns = []
@@ -47,9 +51,14 @@ class WaybackCDXExtractor:
             for r in rows:
                 row_dict = dict(zip(headers, r))
                 original_url = row_dict.get("original", "")
-                # cdx_query 已经在 URL 里做了高级过滤，直接把原 URL 提取出来
-                # 这里不需要再次暴力用关键词过滤，因为查询级别已经足够精准。但如果是 domain matchType 还需要过滤一下。
                 url_path = urlparse(original_url).path.lower()
+                
+                # [DESIGN-3 FIX] 如果是针对泛域名的探针，依然需要保留关键字段过滤防垃圾填充
+                if "matchType=domain" in cdx_query_url or "matchType=host" in cdx_query_url:
+                    key_words = ['promo', 'bonus', 'act', 'campaign', 'free', 'developer', 'credit']
+                    if not any(kw in url_path for kw in key_words) or len(url_path) <= 3:
+                        continue
+
                 patterns.append({
                     "url": original_url,
                     "timestamp": row_dict.get("timestamp"),

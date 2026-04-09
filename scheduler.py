@@ -157,7 +157,7 @@ async def centralized_radar_callback(hit_data: dict):
         signal_strength=strength,
         raw_payload=hit_data
     )
-    decision = fuse_and_decide([event] + list(recent_signal_events)) # 简化的融合调用
+    decision = fuse_and_decide([event] + list(recent_signal_events)[-20:]) # [HIGH-2 FIX] 限制上下文窗口
     recent_signal_events.append(event)
 
     # 3. 过滤噪音
@@ -293,7 +293,8 @@ async def run_deep_scan_daily():
                         if isinstance(r, dict):  # Feature Flag 特殊字典
                             sig = "feature_flag"
                             flag_name = r['flag']
-                            if "admin" in flag_name.lower():
+                            # [DESIGN-2 FIX] 遇到含安全/风险字眼但有价值(含 credit/free)时不盲目当蜜罐
+                            if "admin" in flag_name.lower() and not any(k in flag_name.lower() for k in ["credit", "free", "tier", "api"]):
                                 logger.warning(f"[Honeypot] 检测到诱饵 Flag: {flag_name}，已静默抛弃")
                                 continue # 丢弃 admin 蜜罐
                                 

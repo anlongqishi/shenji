@@ -1,6 +1,7 @@
 import re
 import asyncio
-from typing import List, Set
+from typing import List, Set, Any
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from loguru import logger
 from curl_cffi import requests
@@ -53,13 +54,14 @@ class SPARouteExtractor:
                 return list(routes)
                 
             # 1. 甄别目标 JS Chunk
-            import fnmatch
             target_js_links = []
             if custom_js_cfg and custom_js_cfg.get("entry_js_pattern"):
                 pattern = custom_js_cfg["entry_js_pattern"]
+                # 转换 glob pattern 到 regex (e.g. /assets/index-*.js -> /assets/index-.*\.js)
+                regex_pattern = re.compile(pattern.replace(".", "\\.").replace("*", ".*"))
                 for link in js_links:
                     url_path = urlparse(link).path
-                    if fnmatch.fnmatch(url_path, pattern) or fnmatch.fnmatch(url_path, "*" + pattern):
+                    if regex_pattern.search(url_path):
                         target_js_links.append(link)
                 if not target_js_links:
                     logger.warning(f"[SPA脱壳器] 按照 {pattern} 没有匹配到构建块，回退全量分析")
@@ -100,7 +102,9 @@ class SPARouteExtractor:
                 wasm_results = await asyncio.gather(*wasm_tasks, return_exceptions=True)
                 for w_res in wasm_results:
                     if isinstance(w_res, list):
-                        routes.update(w_res)
+                        for wr in w_res:
+                            if wr not in routes:
+                                routes.append(wr)
                     
             if not custom_js_cfg:
                 # 过滤出高价值路由特征 (默认全量模式下)

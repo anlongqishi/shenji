@@ -179,11 +179,11 @@ async def run_hn_watcher_loop(callback, interval_seconds: int = 30):
         for hit in hits:
             try:
                 # 接入 Semaphore 并在后台执行回调避免阻塞轮询环
-                async def _throttled_dispatch(h):
+                async def _throttled_dispatch(h=hit):
                     async with HN_IMMEDIATE_CRAWL_SEMAPHORE:
                         await callback(h)
                 
-                asyncio.create_task(_throttled_dispatch(hit))
+                asyncio.create_task(_throttled_dispatch())
             except Exception as e:
                 logger.error(f"[ERR] [HN Watcher] callback exception: {e}")
         await asyncio.sleep(interval_seconds)
